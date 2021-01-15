@@ -17,4 +17,6 @@ class Utils {
     
     static let range3 = 0...2
     
+    static let range2 = 0...1
+    
 }

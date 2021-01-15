@@ -19,9 +19,9 @@ import Foundation
 
 
 class Character {
-    var name : String?
-    var life : Int?
-    var weapon : Int
+    var name: String?
+    var life: Int?
+    var weapon: Int
     //var isInLife = true
     
     static let minLife = 0
@@ -40,7 +40,7 @@ class Character {
 class Squire : Character {
     
     init() {
-        super.init(name: "Squire", life: 75, weapon: 15)
+        super.init(name: "", life: 75, weapon: 15)
     }
     
 }
@@ -53,7 +53,7 @@ class Squire : Character {
 class Knight: Character {
     
     init() {
-        super.init(name: "Knight", life: 115, weapon: 30)
+        super.init(name: "", life: 115, weapon: 30)
     }
 
 }
@@ -68,7 +68,7 @@ class Officer : Character {
     //var care : Int
     
     init() {
-        super.init(name: "Officer", life: 150, weapon: 50)
+        super.init(name: "", life: 150, weapon: 50)
     }
 
 }
