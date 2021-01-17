@@ -20,17 +20,47 @@ import Foundation
 
 class Character {
     var name: String?
-    var life: Int?
-    var weapon: Int
-    //var isInLife = true
+    var life = 10
+    var weapon = 0
+    var isInLife = true
     
-    static let minLife = 0
+    static var minLife = 0
     
-    init(name: String?  , life : Int? , weapon : Int) {
+    init(name: String?) {
         self.name = name
-        self.life = life /* -> Int in 0..400  */
-        self.weapon = weapon
+        
+        if self.life <= 0 {
+            isInLife = false
+        }
     }
+    
+    
+
+    
+    static func attack(whoAttacks: Character, whoIsAttacked: Character) -> Character {
+        print("\(whoAttacks) attaks \(whoIsAttacked)")
+                
+        // is there a random chest ?
+        Game.randomChest(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked)
+        
+        print("\(whoIsAttacked) has \(whoIsAttacked.life) points of life now ")
+        
+        return whoIsAttacked
+    }
+    
+    /*
+    static func care(team: Player) -> Character {
+        let carePoint = 35
+        let whoIsCaredFor: Character
+        print("you will care one of your character  with \(carePoint) points of life!")
+        
+        //choice of the character
+        if let whoIsCaredFor = Game.chooseChar(playerchoosed: Game.attackingTeam) {
+            whoIsCaredFor.life += carePoint
+        }
+        return whoIsCaredFor
+    }
+    }*/
 }
 
 
@@ -40,8 +70,33 @@ class Character {
 class Squire : Character {
     
     init() {
-        super.init(name: "", life: 75, weapon: 15)
+         super.init(name: "")
+        life =  75
+        weapon = 15
     }
+    
+    /*
+     func squireAction() {
+     print("you can care a character (choice 0) or contnue the fight (choice 1)")
+     let userChoice = readLine()
+     if Int(userChoice!) == 0 {
+     Character.care(team: attackingTeam)
+     }
+     if Int(userChoice!) == 1{
+     print("who is attacked ?")
+     let attacked = chooseChar(playerchoosed: player2!)
+     print("\(attacked.name) is attacked !")
+     
+     attack(whoAttacks: attacks!, whoIsAttacked: attacked)
+     endOfRound()
+     
+     isSomeOneDead()
+     }
+     }
+     
+     */
+    
+    
     
 }
 
@@ -53,9 +108,10 @@ class Squire : Character {
 class Knight: Character {
     
     init() {
-        super.init(name: "", life: 115, weapon: 30)
+        super.init(name: "")
+        life = 115
+        weapon = 30
     }
-
 }
 
 
@@ -68,9 +124,10 @@ class Officer : Character {
     //var care : Int
     
     init() {
-        super.init(name: "", life: 150, weapon: 50)
+        super.init(name: "")
+        life = 150
+        weapon = 50
     }
-
 }
 
 

@@ -10,11 +10,17 @@ import Foundation
 
 class Weapon {
     
-    var damage: Int?
+    var damage: Int
     
-    init(damage: Int?) {
+    init(damage: Int) {
         self.damage = damage
     }
+    
+    static func hurt(whoAttacks: Character, whoIsAttacked: Character) {
+        whoIsAttacked.life -= whoAttacks.weapon
+    }
+    
+    
 }
 
 

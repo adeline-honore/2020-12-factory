@@ -20,6 +20,15 @@ class Player {
         self.isItAlive = true
     }
     
+    var isAlive: Bool {
+        var result = false
+        playerArray.forEach { Character in
+            if Character.isInLife {
+                result = true
+            }
+        }
+        return result
+    }
     
 }
 
