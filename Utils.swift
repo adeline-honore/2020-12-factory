@@ -11,12 +11,27 @@ import Foundation
 
 //: class Utils
 class Utils {
-    static func readlineValue() -> String? {
-        return readLine()
-    }
     
     static let range3 = 0...2
     
     static let range2 = 0...1
+    
+    
+    static func readlineValue() -> String? {
+        return readLine()
+    }
+    
+    
+    //  XXXXXXXXXXXXXXXXXXXX  STRINGS  XXXXXXXXXXXXXXXXXXXX
+    
+    // check of characters
+    static func theCharacters(team: Player) {
+        for (key, value) in ((team.playerArray.enumerated())) {
+            print("enter")
+            print("\(key) to choose \(value.name) (life : \(value.life), type: \(value)) ")
+        }
+    }
+    
+    
     
 }

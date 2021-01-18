@@ -128,8 +128,10 @@ class Game {
         // do players exist ?
         if let player1 = player1,  let player2 = player2 {
             
-            // alternately
-            while player1.isItAlive == true || player2.isItAlive == true {
+            // are they alive? if so, they fight
+            while player1.isAlive == true || player2.isAlive == true {
+                print(player1.isAlive)
+                print(player2.isAlive)
                 
                 // incrémentation du nombre de tour
                 roundNb += 1
@@ -150,54 +152,60 @@ class Game {
                 }
                 // "action" function call
                 action(attackingTeam: Game.attackingTeam!, attackedTeam: Game.attackedteam!)
+                print("fin du round\(roundNb) !")
             }
+            return
         }
+        print("end of game!!!")
+        return
     }
     
     
     func action(attackingTeam: Player, attackedTeam: Player) {
-        isSomeOneDead()
         print("\(attackingTeam.name) choose the character who will do the action :")
-        Game.theCharacters(team: attackingTeam)
+        Utils.theCharacters(team: attackingTeam)
         whoAttacks = Game.chooseChar(playerchoosed: attackingTeam)
         if let whoAttacks = whoAttacks{
-            print("the character who will do the action is \(whoAttacks.name) with \(whoAttacks.life) points of life")
+            print("the character who will do the action is \(whoAttacks.name)")
             
-            print("\(attackedTeam.name) choose the character who will be injured :")
-            Game.theCharacters(team: attackedTeam)
-            whoIsAttacked = Game.chooseChar(playerchoosed: attackedTeam)
-            if let whoIsAttacked = whoIsAttacked {
-                print("the character who will be injured is : \(whoIsAttacked.name) with  \(whoIsAttacked.life) points of life")
-                Character.attack(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked)
+            // if whoAttacks is not a Squire
+            if whoAttacks is Knight || whoAttacks is Officer {
+                    Character.attack(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked, attackedTeam: Player)
+            }
+            // if whoAttacks is a Squire
+            if whoAttacks is Squire {
+                print("you can care a character (enter care) or continue the fight (enter fight)")
+                
+                let userChoice: String
+                if let userChoice = readLine(){
+                    /*while userChoice != "care" || userChoice != "fight" {
+                     print("you can care a character (enter care) or continue the fight (enter fight)")
+                     userChoice = readLine()
+                     }*/
+                    if userChoice == "fight" {
+                        print("\(whoAttacks) attaks \(whoIsAttacked)")
+                        Character.attack(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked, attackedTeam: Player)
+                    }
+                    if userChoice == "care" {
+                        Squire.care(attackingTeam: attackingTeam)
+                    }
+                }
             }
         }
     }
     
+    
    
     // random chest
-    static func randomChest(whoAttacks: Character, whoIsAttacked: Character) -> Int {
-        let chestPresence = Int.random(in: 0..<10)
+    static func randomChest(whoAttacks: Character, whoIsAttacked: Character) -> Character {
         let chestDamage = Int.random(in: 0...250)
+        print("*************  a chest appears ! ***************")
+        print("The weapon it contains causes \(chestDamage) points of damage")
+        whoIsAttacked.life -= chestDamage
         
-        if chestPresence > 5 {
-            print("*************  a chest appears ! ***************")
-            print("The weapon it contains causes \(chestDamage) points of damage")
-            whoIsAttacked.life -= chestDamage
-            
-            return whoIsAttacked.life
-        }
-        else {
-            print("whoAttacks' points of damge : \(whoAttacks.weapon)")
-            Weapon.hurt(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked)
-            return whoIsAttacked.life
-        }
+        return whoIsAttacked
     }
     
-    // fonction qui va disparaitre
-    func isSomeOneDead() {
-        print("is player1 alive ? \(player1?.isAlive)")
-        print("is player2 alive ? \(player2?.isAlive)")
-    }
  
     // to choose a character in a team
     static func chooseChar(playerchoosed: Player) -> Character {
@@ -214,26 +222,8 @@ class Game {
         return Character(name: "")
     }
     
-    //  XXXXXXXXXXXXXXXXXXXX  STRINGS  XXXXXXXXXXXXXXXXXXXX
-    
-    // check of characters
-    static func theCharacters(team: Player) {
-        for (key, value) in ((team.playerArray.enumerated())) {
-            print("enter")
-            print("\(key) to choose \(value.name) (life : \(value.life), type: \(value)) ")
-        }
-    }
-    
-    func endOfRound() {
-        print("fin du round\(roundNb) !")
-        // next turn
-        roundNb += 1
-    }
-    
     //  XXXXXXXXXXXXXXXXXXXX  the game  XXXXXXXXXXXXXXXXXXXX
     
-   
-    //  XXXXXXXXXXXXXXXXXXXX  INIT() XXXXXXXXXXXXXXXXXXXX
     init() {
         start()
         gameLogic()

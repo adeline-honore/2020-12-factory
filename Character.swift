@@ -7,60 +7,61 @@
 //
 
 
-/*
- if life < Character.minLife {
- life = Character.minLife
- isInLife = false
- }
- */
-
 
 import Foundation
 
 
 class Character {
+    
+    // ----------   PROPERTIES
     var name: String?
     var life = 10
     var weapon = 0
-    var isInLife = true
+    
+    var isInLife: Bool {
+        var result = true
+        if self.life <= 0 {
+            result = false
+        }
+        return result
+    }
     
     static var minLife = 0
     
+    
+    // ----------   INIT
     init(name: String?) {
         self.name = name
         
-        if self.life <= 0 {
-            isInLife = false
-        }
     }
     
     
-
+    // ----------   FUNCTIONS
     
-    static func attack(whoAttacks: Character, whoIsAttacked: Character) -> Character {
+    static func attack(whoAttacks: Character, whoIsAttacked: Character, attackedTeam: Player) -> Character {
+        print("\(attackedTeam.name) choose the character who will be injured :")
+        Utils.theCharacters(team: attackedTeam)
+        if whoIsAttacked = Game.chooseChar(playerchoosed: attackedTeam) {
+        
+        print("the character who will be injured is : \(whoIsAttacked.name) with  \(whoIsAttacked.life) points of life")
         print("\(whoAttacks) attaks \(whoIsAttacked)")
-                
+        
         // is there a random chest ?
-        Game.randomChest(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked)
-        
+        let chestPresence = Int.random(in: 0..<10)
+        if chestPresence > 5 {
+            Game.randomChest(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked)
+        }
+        else {
+            print("whoAttacks' points of damge : \(whoAttacks.weapon)")
+            Weapon.hurt(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked)
+            return whoIsAttacked
+        }
         print("\(whoIsAttacked) has \(whoIsAttacked.life) points of life now ")
-        
         return whoIsAttacked
     }
-    
-    /*
-    static func care(team: Player) -> Character {
-        let carePoint = 35
-        let whoIsCaredFor: Character
-        print("you will care one of your character  with \(carePoint) points of life!")
-        
-        //choice of the character
-        if let whoIsCaredFor = Game.chooseChar(playerchoosed: Game.attackingTeam) {
-            whoIsCaredFor.life += carePoint
-        }
-        return whoIsCaredFor
     }
-    }*/
+    
+    
 }
 
 
@@ -75,29 +76,18 @@ class Squire : Character {
         weapon = 15
     }
     
-    /*
-     func squireAction() {
-     print("you can care a character (choice 0) or contnue the fight (choice 1)")
-     let userChoice = readLine()
-     if Int(userChoice!) == 0 {
-     Character.care(team: attackingTeam)
-     }
-     if Int(userChoice!) == 1{
-     print("who is attacked ?")
-     let attacked = chooseChar(playerchoosed: player2!)
-     print("\(attacked.name) is attacked !")
-     
-     attack(whoAttacks: attacks!, whoIsAttacked: attacked)
-     endOfRound()
-     
-     isSomeOneDead()
-     }
-     }
-     
-     */
     
-    
-    
+     static func care(attackingTeam: Player) -> Character {
+         let carePoint = 35
+         let whoIsCaredFor: Character
+         print("you will care one of your character  with \(carePoint) points of life!")
+        
+         //choice of the character
+        whoIsCaredFor = Game.chooseChar(playerchoosed: Game.attackingTeam!)
+        whoIsCaredFor.life += carePoint
+        
+         return whoIsCaredFor
+     }
 }
 
 
