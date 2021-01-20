@@ -22,11 +22,28 @@ class Utils {
     }
     
     
+    // to return an Integer from a readLine()
+    func enteredInteger() -> Int {
+        let userChoiceNb: Int
+        if let userChoice = readLine(){
+            let intNb = Int(userChoice)
+            if let intNb = intNb {
+                print(intNb)
+                return intNb
+            }
+            userChoiceNb = intNb!
+            return userChoiceNb
+        }
+        return userChoiceNb
+    }
+    
+    
+    
     //  XXXXXXXXXXXXXXXXXXXX  STRINGS  XXXXXXXXXXXXXXXXXXXX
     
     // check of characters
     static func theCharacters(team: Player) {
-        for (key, value) in ((team.playerArray.enumerated())) {
+        for (key, value) in ((team.characters.enumerated())) {
             print("enter")
             print("\(key) to choose \(value.name) (life : \(value.life), type: \(value)) ")
         }

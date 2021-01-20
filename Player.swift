@@ -11,21 +11,41 @@ import Foundation
 
 class Player {
     var name: String?
-    var playerArray: [Character]
+    var characters: [Character]
+    var choosenChar: Character?
+    var whoIsCaredFor: Character?
+
+
     
     var isAlive: Bool {
         var result = false
-        playerArray.forEach { Character in
-            if Character.isInLife == true {
+        characters.forEach { character in
+            if character.isInLife {
                 result = true
             }
         }
         return result
     }
     
-    init(name : String?, _ playerArray: [Character] = []) {
+    init(name : String?, _ characters: [Character] = []) {
         self.name = name
-        self.playerArray = playerArray
+        self.characters = characters
+    }
+    
+    
+    // to choose a character in a team
+    func chooseChar(playerchoosed: Player) -> Character {
+        let choosenChar = Character(name: "")
+        if let userChoice = readLine(){
+            let userChoiceNb = Int(userChoice)
+            if let userChoiceNb = userChoiceNb {
+                if Utils.range3.contains (userChoiceNb) {
+                    let choosenChar = playerchoosed.characters[userChoiceNb]
+                    return choosenChar
+                }
+            }
+        }
+        return choosenChar
     }
     
     

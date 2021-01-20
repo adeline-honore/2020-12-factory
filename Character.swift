@@ -16,7 +16,7 @@ class Character {
     // ----------   PROPERTIES
     var name: String?
     var life = 10
-    var weapon = 0
+    var weapon: Weapon
     
     var isInLife: Bool {
         var result = true
@@ -32,36 +32,18 @@ class Character {
     // ----------   INIT
     init(name: String?) {
         self.name = name
-        
+        self.weapon = Weapon
     }
     
     
     // ----------   FUNCTIONS
     
-    static func attack(whoAttacks: Character, whoIsAttacked: Character, attackedTeam: Player) -> Character {
-        print("\(attackedTeam.name) choose the character who will be injured :")
-        Utils.theCharacters(team: attackedTeam)
-        if whoIsAttacked = Game.chooseChar(playerchoosed: attackedTeam) {
+    func attack(whoIsAttacked: Character) -> Character {
+        whoIsAttacked.life -= self.weapon.damage
         
-        print("the character who will be injured is : \(whoIsAttacked.name) with  \(whoIsAttacked.life) points of life")
-        print("\(whoAttacks) attaks \(whoIsAttacked)")
-        
-        // is there a random chest ?
-        let chestPresence = Int.random(in: 0..<10)
-        if chestPresence > 5 {
-            Game.randomChest(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked)
-        }
-        else {
-            print("whoAttacks' points of damge : \(whoAttacks.weapon)")
-            Weapon.hurt(whoAttacks: whoAttacks, whoIsAttacked: whoIsAttacked)
-            return whoIsAttacked
-        }
         print("\(whoIsAttacked) has \(whoIsAttacked.life) points of life now ")
         return whoIsAttacked
     }
-    }
-    
-    
 }
 
 
@@ -73,19 +55,20 @@ class Squire : Character {
     init() {
          super.init(name: "")
         life =  75
-        weapon = 15
+        weapon.damage = 15
     }
     
     
-     static func care(attackingTeam: Player) -> Character {
-         let carePoint = 35
-         let whoIsCaredFor: Character
-         print("you will care one of your character  with \(carePoint) points of life!")
+     func care(attackingTeam: Player) -> Character {
+        let carePoint = 35
+        let whoIsCaredFor = Character(name: "")
+        print("you will care one of your character  with \(carePoint) points of life!")
         
-         //choice of the character
-        whoIsCaredFor = Game.chooseChar(playerchoosed: Game.attackingTeam!)
-        whoIsCaredFor.life += carePoint
-        
+        //choice of the character
+        attackingTeam.whoIsCaredFor = attackingTeam.chooseChar(playerchoosed: attackingTeam)
+        if let whoIsCaredFor = attackingTeam.whoIsCaredFor {
+            whoIsCaredFor.life += carePoint
+        }
          return whoIsCaredFor
      }
 }
@@ -100,7 +83,7 @@ class Knight: Character {
     init() {
         super.init(name: "")
         life = 115
-        weapon = 30
+        weapon.damage = 30
     }
 }
 
@@ -116,7 +99,7 @@ class Officer : Character {
     init() {
         super.init(name: "")
         life = 150
-        weapon = 50
+        weapon.damage = 50
     }
 }
 

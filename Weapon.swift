@@ -15,12 +15,6 @@ class Weapon {
     init(damage: Int) {
         self.damage = damage
     }
-    
-    static func hurt(whoAttacks: Character, whoIsAttacked: Character) {
-        whoIsAttacked.life -= whoAttacks.weapon
-    }
-    
-    
 }
 
 
