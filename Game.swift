@@ -161,13 +161,32 @@ class Game {
             attackingTeam.chooseChar(playerchoosed: attackedTeam)
             whoIsAttacked = attackingTeam.choosenChar
             if let whoIsAttacked = whoIsAttacked {
-                /*
                 // is there a random chest ?
                 chestPresence = Int.random(in: 0..<10)
                 randomChest(whoIsAttacked: whoIsAttacked)
                 print(whoIsAttacked.life)
-                */
-                whoAttacks.attack(whoIsAttacked: whoIsAttacked)
+                if whoAttacks is Officer {
+                    print("the attacking character is of the Officer type. You can continue the fight (enter : 1), or care a character (enter : 2)")
+                    let choice = Utils.enteredInteger()
+                    while choice != 1 && choice != 2 {
+                        Utils.incorrectEntry()
+                    }
+                    if choice == 1 {
+                        whoAttacks.attack(whoIsAttacked: whoIsAttacked)
+                    }
+                    else if choice == 2 {
+                        print("you will care one of your character")
+                        Utils.theCharacters(team: attackedTeam)
+                        attackingTeam.chooseChar(playerchoosed: attackingTeam)
+                        attackingTeam.whoIsCaredFor = attackingTeam.choosenChar
+                        
+                        whoAttacks.care(whoIsCaredFor: attackingTeam.whoIsCaredFor)
+                    }
+                    
+                }
+                else {
+                    whoAttacks.attack(whoIsAttacked: whoIsAttacked)
+                }
             }
         }
     }

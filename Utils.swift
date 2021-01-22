@@ -16,26 +16,28 @@ class Utils {
     
     static let range2 = 0...1
     
-    
+    /*
     static func readlineValue() -> String? {
         return readLine()
+    }
+ */
+    
+    static func readlineValue() -> String {
+        let valueRL = ""
+        if let valueRL = readLine() {
+            return valueRL
+        }
+        return valueRL
     }
     
     
     // to return an Integer from a readLine()
-    func enteredInteger() -> Int {
+    static func enteredInteger() -> Int {
         let userChoiceNb: Int
-        if let userChoice = readLine(){
-            let intNb = Int(userChoice)
-            if let intNb = intNb {
-                print(intNb)
-                return intNb
-            }
-            userChoiceNb = intNb!
-            return userChoiceNb
-        }
+        userChoiceNb = Int(readlineValue())!
         return userChoiceNb
     }
+    
     
     
     
@@ -49,6 +51,8 @@ class Utils {
         }
     }
     
-    
+    static func incorrectEntry() {
+        print("incorrect entry please start over")
+    }
     
 }

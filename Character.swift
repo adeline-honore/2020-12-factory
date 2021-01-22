@@ -17,6 +17,7 @@ class Character {
     var name: String?
     var life = 10
     var weapon: Weapon
+    //var damage: Int
     
     var isInLife: Bool {
         var result = true
@@ -26,13 +27,17 @@ class Character {
         return result
     }
     
+    
+    
     static var minLife = 0
     
     
     // ----------   INIT
-    init(name: String?) {
+    init(name: String?, weapon: Weapon) {
         self.name = name
-        self.weapon = Weapon
+        self.weapon = weapon
+        
+        
     }
     
     
@@ -53,24 +58,10 @@ class Character {
 class Squire : Character {
     
     init() {
-         super.init(name: "")
+         super.init(name: "", weapon: weapon)
         life =  75
-        weapon.damage = 15
+        weapon = weapon
     }
-    
-    
-     func care(attackingTeam: Player) -> Character {
-        let carePoint = 35
-        let whoIsCaredFor = Character(name: "")
-        print("you will care one of your character  with \(carePoint) points of life!")
-        
-        //choice of the character
-        attackingTeam.whoIsCaredFor = attackingTeam.chooseChar(playerchoosed: attackingTeam)
-        if let whoIsCaredFor = attackingTeam.whoIsCaredFor {
-            whoIsCaredFor.life += carePoint
-        }
-         return whoIsCaredFor
-     }
 }
 
 
@@ -81,9 +72,9 @@ class Squire : Character {
 class Knight: Character {
     
     init() {
-        super.init(name: "")
+        super.init(name: "", weapon: weapon)
         life = 115
-        weapon.damage = 30
+        weapon = weapon
     }
 }
 
@@ -97,9 +88,18 @@ class Officer : Character {
     //var care : Int
     
     init() {
-        super.init(name: "")
+        super.init(name: "", weapon: weapon)
         life = 150
-        weapon.damage = 50
+        weapon = weapon
+    }
+    
+    
+    func care(whoIsCaredFor: Character) -> Character {
+        let carePoint = 35
+        whoIsCaredFor.life += carePoint
+        print("you added \(carePoint) points of life!")
+        
+        return whoIsCaredFor
     }
 }
 
