@@ -1,5 +1,5 @@
 //
-//  Game.swift
+//  main.swift
 //  2020-12-factory
 //
 //  Created by adeline pc on 22/01/2021.
@@ -7,3 +7,6 @@
 //
 
 import Foundation
+
+print("Hello, World!")
+

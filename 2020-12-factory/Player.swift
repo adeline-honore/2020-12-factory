@@ -1,9 +1,53 @@
 //
-//  Player.swift
-//  2020-12-factory
+//  player.swift
+//  factory
 //
-//  Created by adeline pc on 22/01/2021.
-//  Copyright © 2021 adeline pc. All rights reserved.
+//  Created by adeline pc on 21/12/2020.
+//  Copyright © 2020 adeline pc. All rights reserved.
 //
 
 import Foundation
+
+
+class Player {
+    var name: String?
+    var characters: [Character]
+    var choosenChar: Character?
+    var whoIsCaredFor: Character?
+    
+    var isAlive: Bool {
+        var result = false
+        characters.forEach { character in
+            if character.isInLife {
+                result = true
+            }
+        }
+        return result
+    }
+    
+    init(name : String?, _ characters: [Character] = []) {
+        self.name = name
+        self.characters = characters
+    }
+    
+    
+    // to choose a character in a team
+    func chooseChar(playerchoosed: Player) -> Character {
+        let choosenChar = Character(name: "", weapon: WeaponType)
+        let userChoice = Utils.readlineValue()
+        if let userChoiceNb = Int(userChoice) {
+            if Utils.range3.contains (userChoiceNb) {
+                let choosenChar = playerchoosed.characters[userChoiceNb]
+                return choosenChar
+            }
+        }
+        return choosenChar
+    }
+    
+    
+    
+}
+
+
+
+
