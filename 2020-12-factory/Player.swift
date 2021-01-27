@@ -13,12 +13,12 @@ class Player {
     var name: String?
     var characters: [Character]
     var choosenChar: Character?
-    var whoIsCaredFor: Character?
+    //var whoIsCaredFor: Character?
     
     var isAlive: Bool {
         var result = false
         characters.forEach { character in
-            if character.isInLife {
+            if character.itIsAlive {
                 result = true
             }
         }
@@ -32,22 +32,12 @@ class Player {
     
     
     // to choose a character in a team
-    func chooseChar(playerchoosed: Player) -> Character {
-        let choosenChar = Character(name: "", weapon: WeaponType)
-        let userChoice = Utils.readlineValue()
-        if let userChoiceNb = Int(userChoice) {
-            if Utils.range3.contains (userChoiceNb) {
-                let choosenChar = playerchoosed.characters[userChoiceNb]
-                return choosenChar
-            }
+    func chooseChar(playerchoosed: Player) -> Character? {
+        let userChoice = Utils.enteredInteger()
+        
+        if Utils.range3.contains (userChoice) {
+            return playerchoosed.characters[userChoice]
         }
-        return choosenChar
+        return nil
     }
-    
-    
-    
 }
-
-
-
-

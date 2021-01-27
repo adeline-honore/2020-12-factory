@@ -21,8 +21,8 @@ class Game {
     var player2: Player?
     
     // choice of protagonists
-    var whoAttacks: Character?
-    var whoIsAttacked : Character?
+    var theOneWhoDoes: Character?
+    var theOneWhoUndergoes : Character?
     
     // account round
     var roundNb = 0
@@ -32,7 +32,7 @@ class Game {
     
     // who attacks?
     var attackingTeam: Player?
-    var attackedteam: Player?
+    var attackedTeam: Player?
     
     //  XXXXXXXXXXXXXXXXXXXX FUNCTIONS  XXXXXXXXXXXXXXXXXXXX
     
@@ -58,9 +58,9 @@ class Game {
         
         // Init du player
         print("Enter the name of player ")
-        if let name = readLine() {
-            playerIns.name = name
-        }
+        let name = Utils.readlineValue()
+        playerIns.name = name
+        
         
         // creation du tableau des personnages
         var playerArray = [Character]()
@@ -71,43 +71,37 @@ class Game {
             // creation d'une instance de Char arrive après le choix
             var charInstance: Character
             
-            
             print("Enter 0 to create a Squire, 1 to create a Knight, 2 to create a Officer ")
-            let userChoice = readLine()
-            if let userChoice = userChoice {
-                if Utils.range3.contains (Int(userChoice)!) {
-                    switch Int(userChoice) {
-                    case 0:
-                        charInstance = Squire()
-                    case 1:
-                        charInstance = Knight()
-                    case 2:
-                        charInstance = Officer()
-                    default :
-                        charInstance = Squire()
-                        print("value not avaible, a Squire character is create")
-                    }
-                    
-                    print("Enter name of character")
-                    let nameChoice = readLine()
-                    if let nameChoice = nameChoice {
-                        charInstance.name = nameChoice
-                        
-                        // vérif dans allCharacters
-                        if allCharacters.contains(nameChoice) {
-                            print("This name is already existed. Enter an other name of character")
-                            let nameChoice = readLine()
-                            // mettre utils
-                            if let nameChoice = nameChoice {
-                                charInstance.name = nameChoice
-                            }
-                        }
-                        allCharacters.append(nameChoice)
-                        
-                    }
-                    playerArray.append(charInstance)
-                    playerIns.characters = playerArray
+            let userChoice = Utils.enteredInteger()
+            
+            if Utils.range3.contains (userChoice) {
+                
+                switch Int(userChoice) {
+                case 0:
+                    charInstance = Squire()
+                case 1:
+                    charInstance = Knight()
+                case 2:
+                    charInstance = Officer()
+                default :
+                    charInstance = Squire()
+                    print("value not avaible, a Squire character is create")
+            }
+                
+            print("Enter name of character")
+            let nameChoice = Utils.readlineValue()
+            charInstance.name = nameChoice
+            
+            // check if the name already exists in allCharacters
+                if allCharacters.contains(nameChoice) {
+                    print("This name is already existed. Enter an other name of character")
+                    let nameChoice = Utils.readlineValue()
+                    charInstance.name = nameChoice
                 }
+                allCharacters.append(nameChoice)
+                
+                playerArray.append(charInstance)
+                playerIns.characters = playerArray
             }
         }
         roundArray += 1
@@ -115,22 +109,18 @@ class Game {
         return playerIns
     }
     
-    func swapPlayers(_a: inout Player, _b: inout Player) {
-        let temporaryA = _a
-        _a = _b
-        _b = temporaryA
-    }
     
-    // fonction tour à tour
+    // alternate function
     func round() {
         
         // do players exist ?
         if let player1 = player1,  let player2 = player2 {
+            attackingTeam = player1
+            attackedTeam = player2
             
             // are they alive? if so, they fight
             while player1.isAlive && player2.isAlive {
-                print(player1.isAlive)
-                print(player2.isAlive)
+
                 
                 // incrémentation du nombre de tour
                 roundNb += 1
@@ -138,55 +128,36 @@ class Game {
                 
                 
                 // "action" function call
-                action(attackingTeam: attackingTeam!, attackedTeam: attackedteam!)
+                action(attackingTeam: attackingTeam!, attackedTeam: attackedTeam!)
                 print("fin du round\(roundNb) !")
-                swapPlayers(_a: &attackingTeam!, _b: &attackedteam!)
+                
+                
+                swap(&attackedTeam, &attackingTeam)
             }
+            Utils.endOfGame()
+            print("\(attackingTeam?.name ?? "" ) is the winner, congratulations !!!")
+            
             return
         }
-        print("end of game!!!")
         return
     }
     
     
     func action(attackingTeam: Player, attackedTeam: Player) {
-        print("\(attackingTeam.name) choose the character who will do the action :")
+        print("\(attackingTeam.name ?? "") choose the character who will do the action :")
         Utils.theCharacters(team: attackingTeam)
-        attackingTeam.chooseChar(playerchoosed: attackingTeam)
-        whoAttacks = attackingTeam.choosenChar
-        if let whoAttacks = whoAttacks{
-            print("the character who will do the action is \(whoAttacks.name)")
-            print("\(attackingTeam.name) choose the character who will be injured :")
+        theOneWhoDoes = attackingTeam.chooseChar(playerchoosed: attackingTeam)
+        if let theOneWhoDoes = theOneWhoDoes{
+            print("the character who will do the action is \(theOneWhoDoes.name ?? "")")
+            print("\(attackingTeam.name ?? "") choose the character who will undergo the action :")
             Utils.theCharacters(team: attackedTeam)
-            attackingTeam.chooseChar(playerchoosed: attackedTeam)
-            whoIsAttacked = attackingTeam.choosenChar
-            if let whoIsAttacked = whoIsAttacked {
+            theOneWhoUndergoes = attackingTeam.chooseChar(playerchoosed: attackedTeam)
+            if let theOneWhoUndergoes = theOneWhoUndergoes {
+                
                 // is there a random chest ?
                 chestPresence = Int.random(in: 0..<10)
-                randomChest(whoIsAttacked: whoIsAttacked)
-                print(whoIsAttacked.life)
-                if whoAttacks is Officer {
-                    print("the attacking character is of the Officer type. You can continue the fight (enter : 1), or care a character (enter : 2)")
-                    let choice = Utils.enteredInteger()
-                    while choice != 1 && choice != 2 {
-                        Utils.incorrectEntry()
-                    }
-                    if choice == 1 {
-                        whoAttacks.attack(whoIsAttacked: whoIsAttacked)
-                    }
-                    else if choice == 2 {
-                        print("you will care one of your character")
-                        Utils.theCharacters(team: attackedTeam)
-                        attackingTeam.chooseChar(playerchoosed: attackingTeam)
-                        attackingTeam.whoIsCaredFor = attackingTeam.choosenChar
-                        
-                        whoAttacks.care(whoIsCaredFor: attackingTeam.whoIsCaredFor)
-                    }
-                    
-                }
-                else {
-                    whoAttacks.attack(whoIsAttacked: whoIsAttacked)
-                }
+                randomChest(whoWillSuffer: theOneWhoUndergoes)
+                theOneWhoDoes.actionOn(theOneWhoUndergoes: theOneWhoUndergoes)
             }
         }
     }
@@ -194,20 +165,16 @@ class Game {
     
     
     // random chest
-    func randomChest(whoIsAttacked: Character) -> Character {
+    func randomChest(whoWillSuffer: Character) {
         if let chestPresence = chestPresence {
             if chestPresence < 2 {
                 let chestDamage = Int.random(in: 0...250)
                 print("*************  a chest appears ! ***************")
                 print("The weapon it contains causes \(chestDamage) points of damage")
-                whoIsAttacked.life -= chestDamage
-                
-                return whoIsAttacked
+                whoWillSuffer.life -= chestDamage
             }
         }
-        return whoIsAttacked
     }
-    
     
     
     

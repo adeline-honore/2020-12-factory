@@ -19,7 +19,7 @@ class Character {
     var weapon: Weapon
     //var damage: Int
     
-    var isInLife: Bool {
+    var itIsAlive: Bool {
         var result = true
         if self.life <= 0 {
             result = false
@@ -28,81 +28,19 @@ class Character {
     }
     
     
-    
-    static var minLife = 0
-    
-    
     // ----------   INIT
     init(name: String?, weapon: Weapon) {
         self.name = name
         self.weapon = weapon
-        
-        
     }
     
     
     // ----------   FUNCTIONS
     
-    func attack(whoIsAttacked: Character) -> Character {
-        whoIsAttacked.life -= self.weapon.damage
+    func actionOn(theOneWhoUndergoes: Character) {
+        theOneWhoUndergoes.life -= self.weapon.damage
         
-        print("\(whoIsAttacked) has \(whoIsAttacked.life) points of life now ")
-        return whoIsAttacked
+        print("\(theOneWhoUndergoes.name ?? "") has \(theOneWhoUndergoes.life) points of life now ")
     }
 }
-
-
-//: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//: XXXXXX          SOUS-CLASS 1 : Squire       XXXXXXXXXXXXXXX
-
-class Squire : Character {
-    
-    init() {
-        super.init(name: "", weapon: weapon)
-        life =  75
-        weapon = weapon
-    }
-}
-
-
-
-//: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//: XXXXXX          SOUS-CLASS 2 : Knight        XXXXXXXXXXXXXXX
-
-class Knight: Character {
-    
-    init() {
-        super.init(name: "", weapon: weapon)
-        life = 115
-        weapon = weapon
-    }
-}
-
-
-
-//: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//: XXXXXX          SOUS-CLASS 3 : Officer        XXXXXXXXXXXXXXX
-
-class Officer : Character {
-    
-    //var care : Int
-    
-    init() {
-        super.init(name: "", weapon: weapon)
-        life = 150
-        weapon = weapon
-    }
-    
-    
-    func care(whoIsCaredFor: Character) -> Character {
-        let carePoint = 35
-        whoIsCaredFor.life += carePoint
-        print("you added \(carePoint) points of life!")
-        
-        return whoIsCaredFor
-    }
-}
-
-
-
 

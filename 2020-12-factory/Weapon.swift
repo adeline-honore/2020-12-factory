@@ -11,26 +11,23 @@
 import Foundation
 
 
+enum WeaponType {
+    case sword
+    case laserRay
+}
+
+
 class Weapon {
     
-    var damage: Int
+    var damage = 0
     
     var type: WeaponType
     
-    enum WeaponType {
-        case woodenWeapon
-        case sword
-        case laserRay
-    }
     
-    
-    init(damage: Int, WeaponType: WeaponType) {
-        self.damage = damage
-        self.type = WeaponType
+    init(weaponType: WeaponType) {
+        self.type = weaponType
         
-        switch WeaponType {
-        case .woodenWeapon:
-            self.damage = 15
+        switch weaponType {
         case .sword:
             self.damage = 30
         case .laserRay:
@@ -39,8 +36,3 @@ class Weapon {
     }
     
 }
-
-
-
-
-

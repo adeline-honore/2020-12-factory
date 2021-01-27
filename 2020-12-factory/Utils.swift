@@ -16,29 +16,55 @@ class Utils {
     
     static let range2 = 0...1
     
-    /*
-     static func readlineValue() -> String? {
-     return readLine()
-     }
-     */
+    static let range9 = 0...9
+    
     
     static func readlineValue() -> String {
-        let valueRL = ""
-        if let valueRL = readLine() {
+        var keyboardInput = readLine()
+        while keyboardInput!.isEmpty{
+            print("Keyboard input is empty, please enter a correct value .")
+            keyboardInput = readLine()
+        }
+        if let valueRL = keyboardInput {
             return valueRL
         }
-        return valueRL
+        return ""
     }
     
     
     // to return an Integer from a readLine()
     static func enteredInteger() -> Int {
-        let userChoiceNb: Int
-        userChoiceNb = Int(readlineValue())!
-        return userChoiceNb
+                
+        // convert entry to integer
+        var readlinevalueEntered = Int(readlineValue())
+        
+        // if the entry is of the type "String"
+        while readlinevalueEntered == nil {
+            print("this is not a number, please enter a correct value .")
+            readlinevalueEntered = Int(readlineValue())
+        }
+        
+        // if the entry is a number strictly greater than 9
+        while isNumeric(testedValue: readlinevalueEntered!) == false {
+            print("Keyboard input is not a digit, please enter a correct value .")
+            readlinevalueEntered = Int(readlineValue())
+        }
+        
+        if let numberChoosen = readlinevalueEntered {
+            return numberChoosen
+        }
+        return 0
     }
     
     
+    static func isNumeric(testedValue: Int) -> Bool {
+        if range9.contains(Int(testedValue)) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
     
     
     //  XXXXXXXXXXXXXXXXXXXX  STRINGS  XXXXXXXXXXXXXXXXXXXX
@@ -46,13 +72,18 @@ class Utils {
     // check of characters
     static func theCharacters(team: Player) {
         for (key, value) in ((team.characters.enumerated())) {
-            print("enter")
-            print("\(key) to choose \(value.name) (life : \(value.life), type: \(value)) ")
+            print("enter: \(key) to choose \(value.name ?? ""), life: \(value.life ), damage: \(value.weapon) ")
         }
     }
     
     static func incorrectEntry() {
         print("incorrect entry please start over")
     }
+    
+    // End of Game
+    static func endOfGame() {
+        print("end of game !!!")
+    }
+    
     
 }
