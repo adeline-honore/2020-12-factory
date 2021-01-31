@@ -13,12 +13,10 @@ import Foundation
 class Utils {
     
     static let range3 = 0...2
-    
-    static let range2 = 0...1
-    
     static let range9 = 0...9
+    static let numberCharInTeam = 3
     
-    
+    // to return a string not not empty
     static func readlineValue() -> String {
         var keyboardInput = readLine()
         while keyboardInput!.isEmpty{
@@ -69,13 +67,19 @@ class Utils {
     
     //  XXXXXXXXXXXXXXXXXXXX  STRINGS  XXXXXXXXXXXXXXXXXXXX
     
+    // Welcome
+    static func welcomme() {
+        print("Welcome to the new game from Game Factory.(\n)Two players will compete against each other.(\n)Each player will have three characters on their team.(\n)You have the choice between a Squire, a Knight and an Officer to create a team.(\n)Let's go and good luck.")
+    }
+    
     // check of characters
     static func theCharacters(team: Player) {
         for (key, value) in ((team.characters.enumerated())) {
-            print("enter: \(key) to choose \(value.name ?? ""), life: \(value.life ), damage: \(value.weapon) ")
+            print("enter: \(key) to choose \(value) \(value.name ?? ""), life: \(value.life ), damage: \(value.weapon) ")
         }
     }
     
+    // function incorrect entry 
     static func incorrectEntry() {
         print("incorrect entry please start over")
     }

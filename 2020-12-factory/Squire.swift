@@ -9,10 +9,11 @@
 import Foundation
 
 
+
 //: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //: XXXXXX          SOUS-CLASS 1 : Squire       XXXXXXXXXXXXXXX
 
-class Squire : Character {
+class Squire: Character {
     
     init() {
         super.init(name: "", weapon: Weapon(weaponType: .sword))

@@ -10,11 +10,10 @@ import Foundation
 
 
 
-
 //: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //: XXXXXX          SOUS-CLASS 3 : Officer        XXXXXXXXXXXXXXX
 
-class Officer : Character {
+class Officer: Character {
     
     
     init() {

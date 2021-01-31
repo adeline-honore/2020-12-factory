@@ -11,9 +11,8 @@ import Foundation
 
 class Player {
     var name: String?
-    var characters: [Character]
+    var characters: [Character] = []
     var choosenChar: Character?
-    //var whoIsCaredFor: Character?
     
     var isAlive: Bool {
         var result = false
@@ -25,9 +24,8 @@ class Player {
         return result
     }
     
-    init(name : String?, _ characters: [Character] = []) {
+    init(name: String?) {
         self.name = name
-        self.characters = characters
     }
     
     
@@ -35,9 +33,10 @@ class Player {
     func chooseChar(playerchoosed: Player) -> Character? {
         let userChoice = Utils.enteredInteger()
         
-        if Utils.range3.contains (userChoice) {
-            return playerchoosed.characters[userChoice]
+        // check if the entry corresponds to a character
+        while !Utils.range3.contains (userChoice) {
+            Utils.incorrectEntry()
         }
-        return nil
+        return playerchoosed.characters[userChoice]
     }
 }

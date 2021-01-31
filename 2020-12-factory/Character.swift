@@ -17,7 +17,6 @@ class Character {
     var name: String?
     var life = 10
     var weapon: Weapon
-    //var damage: Int
     
     var itIsAlive: Bool {
         var result = true
