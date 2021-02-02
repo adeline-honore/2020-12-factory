@@ -14,6 +14,7 @@ import Foundation
 enum WeaponType {
     case sword
     case laserRay
+    case inChest
 }
 
 
@@ -32,6 +33,8 @@ class Weapon {
             self.damage = 30
         case .laserRay:
             self.damage = 50
+        case .inChest:
+            self.damage = Int.random(in: 20...250)
         }
     }
     

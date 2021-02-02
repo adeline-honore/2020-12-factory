@@ -12,7 +12,6 @@ import Foundation
 class Player {
     var name: String?
     var characters: [Character] = []
-    var choosenChar: Character?
     
     var isAlive: Bool {
         var result = false
@@ -34,7 +33,7 @@ class Player {
         let userChoice = Utils.enteredInteger()
         
         // check if the entry corresponds to a character
-        while !Utils.range3.contains (userChoice) {
+        while !Utils.rangeArray.contains (userChoice) {
             Utils.incorrectEntry()
         }
         return playerchoosed.characters[userChoice]

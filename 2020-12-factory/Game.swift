@@ -15,25 +15,14 @@ class Game {
     //  XXXXXXXXXXXXXXXXXXXX  CONSTANTES  &  VARIABLES  XXXXXXXXXXXXXXXXXXXX
     
     // table of character names
-    var characterNames: [String] = []
+    private var characterNames: [String] = []
     
     // instantiations of Player
-    var player1: Player?
-    var player2: Player?
-    
-    // choice of protagonists
-    var theOneWhoDoes: Character?
-    var theOneWhoUndergoes: Character?
-    
-    // account round
-    var roundNb = 0
+    private var player1: Player?
+    private var player2: Player?
     
     // presence of random chest
     var chestPresence: Int?
-    
-    // who attacks?
-    var attackingTeam: Player?
-    var attackedTeam: Player?
     
     //  XXXXXXXXXXXXXXXXXXXX FUNCTIONS  XXXXXXXXXXXXXXXXXXXX
     
@@ -43,11 +32,6 @@ class Game {
         player2 = createPlayer()
     }
     
-    func gameLogic() {
-        guard let player1 = player1, let player2 = player2 else {
-            return
-        }
-    }
     
     // creation of characters
     func createCharacter() -> Character{
@@ -59,7 +43,7 @@ class Game {
         let userChoice = Utils.enteredInteger()
         
         // check the entry
-        while !Utils.range3.contains(userChoice) {
+        while !Utils.rangeArray.contains(userChoice) {
             Utils.incorrectEntry()
         }
         
@@ -107,7 +91,7 @@ class Game {
         // creation of the table of characters
         var playerArray = [Character]()
         
-        while playerArray.count < Utils.numberCharInTeam {
+        while playerArray.count < Utils.numberCharInPlayer {
             let aCharacter: Character = createCharacter()
             playerArray.append(aCharacter)
             playerIns.characters = playerArray
@@ -119,64 +103,79 @@ class Game {
     // alternate function
     func round() {
         
-        // do players exist ?
-        if let player1 = player1,  let player2 = player2 {
-            attackingTeam = player1
-            attackedTeam = player2
-            
-            // are they alive? if so, they fight
-            while player1.isAlive && player2.isAlive {
+        // account round
+        var roundNb = 0
+        
+        guard let player1 = player1, let player2 = player2 else {
+            return
+        }
+   
+        var attackingPlayer = player1
+        var attackedPlayer = player2
+        
+        // are they alive? if so, they fight
+        while player1.isAlive && player2.isAlive {
 
-                // incrémentation du nombre de tour
-                roundNb += 1
-                print("Round n°: \(roundNb)")
-                
-                // "action" function call
-                action(teamWhoAttacks: attackingTeam!, teamWhoIsAttacked: attackedTeam!)
-                print("fin du round\(roundNb) !")
-                
-                // swap between characters
-                swap(&attackedTeam, &attackingTeam)
+            // incrémentation du nombre de tour
+            roundNb += 1
+            print("Round n°: \(roundNb)")
+            
+            // "action" function call
+            action(playerWhoAttacks: attackingPlayer, playerWhoIsAttacked: attackedPlayer)
+            print("fin du round\(roundNb) !")
+            
+            // swap between players
+            swap(&attackedPlayer, &attackingPlayer)
+        }
+        Utils.endOfGame(winnerPlayer: attackingPlayer.name)
+    }
+
+    
+    
+    func action(playerWhoAttacks: Player, playerWhoIsAttacked: Player) {
+        
+        print("\(playerWhoAttacks.name ?? "") choose the character who will do the action :")
+        Utils.theCharacters(player: playerWhoAttacks)
+        guard let theOneWhoDoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoAttacks) else {
+            return
+        }
+        
+        if theOneWhoDoes is Officer {
+            print("you choose an Officer, you will care one of your characters ")
+            Utils.theCharacters(player: playerWhoAttacks)
+            guard let theOneWhoUndergoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoIsAttacked) else {
+                return
             }
-            Utils.endOfGame()
-            print("\(attackingTeam?.name ?? "" ) is the winner, congratulations !!!")
+            theOneWhoDoes.actionOn(theOneWhoUndergoes: theOneWhoUndergoes)
+
+        }
+        else {
+            print("\(playerWhoAttacks.name ?? "") choose the character who will undergo the action :")
+            Utils.theCharacters(player: playerWhoIsAttacked)
+            
+            guard let theOneWhoUndergoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoIsAttacked) else {
+                return
+            }
+            chestPresence = Int.random(in: 0..<10)
+            randomChest(theOneWhoDoes: theOneWhoDoes)
+            theOneWhoDoes.actionOn(theOneWhoUndergoes: theOneWhoUndergoes)
         }
     }
-    
-    
-    func action(teamWhoAttacks: Player, teamWhoIsAttacked: Player) {
-        print("\(teamWhoAttacks.name ?? "") choose the character who will do the action :")
-        Utils.theCharacters(team: teamWhoAttacks)
-        theOneWhoDoes = teamWhoAttacks.chooseChar(playerchoosed: teamWhoAttacks)
-        if let theOneWhoDoes = theOneWhoDoes{
-            print("the character who will do the action is \(theOneWhoDoes.name ?? "")")
-            print("\(teamWhoAttacks.name ?? "") choose the character who will undergo the action :")
-            Utils.theCharacters(team: teamWhoIsAttacked)
-            theOneWhoUndergoes = teamWhoAttacks.chooseChar(playerchoosed: teamWhoIsAttacked)
-            if let theOneWhoUndergoes = theOneWhoUndergoes {
-                
-                // is there a random chest ?
-                chestPresence = Int.random(in: 0..<10)
-                randomChest(theOneWhoDoes: theOneWhoDoes)
-                theOneWhoDoes.actionOn(theOneWhoUndergoes: theOneWhoUndergoes)
-            }
-        }
-    }
-    
     
     
     // random chest
     func randomChest(theOneWhoDoes: Character) {
-        if let chestPresence = chestPresence {
-            if chestPresence < 2 {
-                let chestDamage = Int.random(in: 0...250)
-                print("*************  a chest appears ! ***************")
-                print("The weapon it contains causes \(chestDamage) points of damage")
-                theOneWhoDoes.weapon.damage = chestDamage
-            }
+        guard let chestPresence = chestPresence else {
+            return
         }
+        if chestPresence < 2 {
+            print("*************  a chest appears ! ***************")
+            let weaponInChest = Weapon(weaponType: .inChest)
+            print("The weapon it contains causes \(weaponInChest.damage) points of damage")
+            theOneWhoDoes.weapon = weaponInChest
+        }
+        
     }
-    
     
     
     //  XXXXXXXXXXXXXXXXXXXX  the game  XXXXXXXXXXXXXXXXXXXX
@@ -187,4 +186,3 @@ class Game {
         round()
     }
 }
-

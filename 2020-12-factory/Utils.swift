@@ -12,9 +12,10 @@ import Foundation
 //: class Utils
 class Utils {
     
-    static let range3 = 0...2
-    static let range9 = 0...9
-    static let numberCharInTeam = 3
+    static let rangeArray = 0..<numberCharInPlayer
+    static let rangeDigit = 0...9
+    static let numberCharInPlayer = 3
+    
     
     // to return a string not not empty
     static func readlineValue() -> String {
@@ -43,7 +44,10 @@ class Utils {
         }
         
         // if the entry is a number strictly greater than 9
-        while isNumeric(testedValue: readlinevalueEntered!) == false {
+        guard let testedValue = readlinevalueEntered else {
+            return 0
+        }
+        while isNumeric(testedValue: testedValue) == false {
             print("Keyboard input is not a digit, please enter a correct value .")
             readlinevalueEntered = Int(readlineValue())
         }
@@ -56,7 +60,7 @@ class Utils {
     
     
     static func isNumeric(testedValue: Int) -> Bool {
-        if range9.contains(Int(testedValue)) {
+        if rangeDigit.contains(Int(testedValue)) {
             return true
         }
         else {
@@ -73,8 +77,8 @@ class Utils {
     }
     
     // check of characters
-    static func theCharacters(team: Player) {
-        for (key, value) in ((team.characters.enumerated())) {
+    static func theCharacters(player: Player) {
+        for (key, value) in ((player.characters.enumerated())) {
             print("enter: \(key) to choose \(value) \(value.name ?? ""), life: \(value.life ), damage: \(value.weapon) ")
         }
     }
@@ -85,7 +89,8 @@ class Utils {
     }
     
     // End of Game
-    static func endOfGame() {
+    static func endOfGame(winnerPlayer: String?) {
+        print("\(winnerPlayer ?? "" ) is the winner, congratulations !!!")
         print("end of game !!!")
     }
     
