@@ -15,6 +15,7 @@ enum WeaponType {
     case sword
     case laserRay
     case inChest
+    case no
 }
 
 
@@ -35,6 +36,8 @@ class Weapon {
             self.damage = 50
         case .inChest:
             self.damage = Int.random(in: 20...250)
+        case .no:
+            self.damage = 0
         }
     }
     

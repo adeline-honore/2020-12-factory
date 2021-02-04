@@ -39,12 +39,14 @@ class Game {
         var charInstance: Character
         
         // creation of an instance of Character
-        print("Enter 0 to create a Squire,(\n)enter 1 to create a Knight,(\n)enter 2 to create a Officer ")
-        let userChoice = Utils.enteredInteger()
+        print("Enter 0 to create a Squire,\nenter 1 to create a Knight,\nenter 2 to create a Doctor ")
+        var userChoice = Utils.enteredInteger()
         
         // check the entry
         while !Utils.rangeArray.contains(userChoice) {
             Utils.incorrectEntry()
+            print("you have must enter a number between 0 and \(Utils.numberCharType-1) ")
+            userChoice = Utils.enteredInteger()
         }
         
         switch Int(userChoice) {
@@ -53,7 +55,7 @@ class Game {
         case 1:
             charInstance = Knight()
         case 2:
-            charInstance = Officer()
+            charInstance = Doctor()
         default :
             charInstance = Squire()
             print("value not avaible, a Squire character is create")
@@ -61,19 +63,19 @@ class Game {
         
         // Choose character's name
         print("Enter name of character")
-        let nameChoice = Utils.readlineValue()
+        var nameChoice = Utils.readlineValue()
         charInstance.name = nameChoice
         
         // check if the name already exists in characterNames
         while characterNames.contains(nameChoice) {
             print("This name is already existed. Enter an other name of character")
-            let nameChoice = Utils.readlineValue()
+            nameChoice = Utils.readlineValue()
             charInstance.name = nameChoice
         }
         // addition of the character name in the table of names
         characterNames.append(nameChoice)
         
-        print(charInstance)
+        print("\nYou create a \(type(of:charInstance)) named :\(charInstance.name ?? "")\n")
         return charInstance
     }
     
@@ -140,10 +142,10 @@ class Game {
             return
         }
         
-        if theOneWhoDoes is Officer {
-            print("you choose an Officer, you will care one of your characters ")
+        if theOneWhoDoes is Doctor {
+            print("you choose an Doctor, you will care one of your characters ")
             Utils.theCharacters(player: playerWhoAttacks)
-            guard let theOneWhoUndergoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoIsAttacked) else {
+            guard let theOneWhoUndergoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoAttacks) else {
                 return
             }
             theOneWhoDoes.actionOn(theOneWhoUndergoes: theOneWhoUndergoes)

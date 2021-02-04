@@ -1,5 +1,5 @@
 //
-//  Officer.swift
+//  Doctor.swift
 //  factory
 //
 //  Created by adeline pc on 26/01/2021.
@@ -11,13 +11,13 @@ import Foundation
 
 
 //: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//: XXXXXX          SOUS-CLASS 3 : Officer        XXXXXXXXXXXXXXX
+//: XXXXXX          SOUS-CLASS 3 : Doctor        XXXXXXXXXXXXXXX
 
-class Officer: Character {
+class Doctor: Character {
     
     
     init() {
-        super.init(name: "", weapon: Weapon(weaponType: .laserRay))
+        super.init(name: "", weapon: Weapon(weaponType: .no))
         life = 115
         weapon = weapon
     }
@@ -28,5 +28,6 @@ class Officer: Character {
         let carePoint = Int.random(in: 30...50)
         theOneWhoUndergoes.life += carePoint
         print("you added \(carePoint) points of life!")
+        print("now \(theOneWhoUndergoes.name ?? "") has \(theOneWhoUndergoes.life) points of life")
     }
 }
