@@ -89,7 +89,12 @@ class Utils {
     // check of characters
     static func theCharacters(player: Player) {
         for (key, value) in ((player.characters.enumerated())) {
-            print("enter: \(key) to choose \(type(of:value)) named \(value.name ?? ""), life: \(value.life ), damage: \(value.weapon.damage) ")
+            if value.itIsAlive == true {
+                print("enter: \(key) to choose \(type(of:value)) named \(value.name ?? ""), life: \(value.life ), damage: \(value.weapon.damage) ")
+            }
+            else {
+                print("not \(value.name ?? "") because he is dead.")
+            }
         }
     }
     
@@ -100,7 +105,7 @@ class Utils {
     
     // End of Game
     static func endOfGame(winnerPlayer: String?) {
-        print("\n******************   end of game !!!   ******************\n")
+        print("******************   end of game !!!   ******************\n")
         print("congratulations !!! \n\(winnerPlayer ?? "" ) you are the winner! ")
     }
     

@@ -124,12 +124,12 @@ class Game {
             
             // "action" function call
             action(playerWhoAttacks: attackingPlayer, playerWhoIsAttacked: attackedPlayer)
-            print("fin du round\(roundNb) !")
+            print("fin du round\(roundNb) ! \n")
             
             // swap between players
             swap(&attackedPlayer, &attackingPlayer)
         }
-        Utils.endOfGame(winnerPlayer: attackingPlayer.name)
+        Utils.endOfGame(winnerPlayer: attackedPlayer.name)
     }
 
     

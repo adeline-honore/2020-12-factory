@@ -30,11 +30,17 @@ class Player {
     
     // to choose a character in a team
     func chooseChar(playerchoosed: Player) -> Character? {
-        let userChoice = Utils.enteredInteger()
+        var userChoice = Utils.enteredInteger()
         
         // check if the entry corresponds to a character
         while !Utils.rangeArray.contains (userChoice) {
             Utils.incorrectEntry()
+            userChoice = Utils.enteredInteger()
+        }
+        
+        while Utils.rangeArray.contains (userChoice) && playerchoosed.characters[userChoice].itIsAlive == false {
+            print("you cannot choose this character because he is dead !")
+            userChoice = Utils.enteredInteger()
         }
         return playerchoosed.characters[userChoice]
     }

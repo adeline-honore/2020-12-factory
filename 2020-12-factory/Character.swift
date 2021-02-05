@@ -19,11 +19,13 @@ class Character {
     var weapon: Weapon
     
     var itIsAlive: Bool {
+        return life >= 0
+        /*
         var result = true
         if self.life <= 0 {
             result = false
         }
-        return result
+        return result*/
     }
     
     
