@@ -21,10 +21,12 @@ enum WeaponType {
 
 class Weapon {
     
+    //  XXXXXXXXXXXXXXXXXXXX  PROPERTIES  XXXXXXXXXXXXXXXXXXXX
     var damage = 0
     
     var type: WeaponType
     
+    //  XXXXXXXXXXXXXXXXXXXX INIT  XXXXXXXXXXXXXXXXXXXX
     
     init(weaponType: WeaponType) {
         self.type = weaponType
@@ -40,5 +42,4 @@ class Weapon {
             self.damage = 0
         }
     }
-    
 }

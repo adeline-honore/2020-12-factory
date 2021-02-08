@@ -12,16 +12,19 @@ import Foundation
 //: class Utils
 class Utils {
     
+    //  XXXXXXXXXXXXXXXXXXXX  PROPERTIES  XXXXXXXXXXXXXXXXXXXX
+    
     static let rangeArray = 0..<numberCharInPlayer
     static let rangeDigit = 0...9
     static let numberCharInPlayer = 3
     static let numberCharType = 3
     
+    //  XXXXXXXXXXXXXXXXXXXX METHODS  XXXXXXXXXXXXXXXXXXXX
     
     // to return a string not not empty
     static func readlineValue() -> String {
         var keyboardInput = readLine()
-        while keyboardInput!.isEmpty{
+        while keyboardInput!.isEmpty {
             print("Keyboard input is empty, please enter a correct value .")
             keyboardInput = readLine()
         }
@@ -45,40 +48,29 @@ class Utils {
             readlinevalueEntered = Int(readlineValue())
         }
         
-        // if the entry is a number strictly greater than 9
-        /*
-        guard let valueToTest = readlinevalueEntered else {
-            return 0
-        }*/
-        //if let valueToTest = readlinevalueEntered {
-        //if let valueToTest = readlinevalueEntered {
-            while isNumeric(testedValue: readlinevalueEntered!) == false {
-                print("Keyboard input is not a digit, please enter a correct value.")
-                readlinevalueEntered = Int(readlineValue())
-            }
-        
-            if let numberChoosen = readlinevalueEntered {
-                return numberChoosen
-            }
-        
-        //}
+        while isNumeric(testedValue: readlinevalueEntered!) == false {
+            print("Keyboard input is not a digit, please enter a correct value.")
+            readlinevalueEntered = Int(readlineValue())
+        }
+    
+        if let numberChoosen = readlinevalueEntered {
+            return numberChoosen
+        }
         return 0
     }
     
     
     static func isNumeric(testedValue: Int) -> Bool {
         if rangeDigit.contains(Int(testedValue)) {
-            //print(testedValue)
             return true
         }
         else {
-            //print(testedValue)
             return false
         }
     }
     
     
-    //  XXXXXXXXXXXXXXXXXXXX  STRINGS  XXXXXXXXXXXXXXXXXXXX
+    //  -----------  STRINGS
     
     // Welcome
     static func welcomme() {
@@ -108,6 +100,4 @@ class Utils {
         print("******************   end of game !!!   ******************\n")
         print("congratulations !!! \n\(winnerPlayer ?? "" ) you are the winner! ")
     }
-    
-    
 }

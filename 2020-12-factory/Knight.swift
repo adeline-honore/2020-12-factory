@@ -21,5 +21,3 @@ class Knight: Character {
         weapon = weapon
     }
 }
-
-

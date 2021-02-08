@@ -24,7 +24,6 @@ class Doctor: Character {
     
     override func actionOn(theOneWhoUndergoes: Character) {
         
-        
         let carePoint = Int.random(in: 30...50)
         theOneWhoUndergoes.life += carePoint
         print("you added \(carePoint) points of life!")

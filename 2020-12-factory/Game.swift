@@ -12,7 +12,7 @@ import Foundation
 
 class Game {
     
-    //  XXXXXXXXXXXXXXXXXXXX  CONSTANTES  &  VARIABLES  XXXXXXXXXXXXXXXXXXXX
+    //  XXXXXXXXXXXXXXXXXXXX  PROPERTIES  XXXXXXXXXXXXXXXXXXXX
     
     // table of character names
     private var characterNames: [String] = []
@@ -22,9 +22,9 @@ class Game {
     private var player2: Player?
     
     // presence of random chest
-    var chestPresence: Int?
+    private var chestPresence: Int?
     
-    //  XXXXXXXXXXXXXXXXXXXX FUNCTIONS  XXXXXXXXXXXXXXXXXXXX
+    //  XXXXXXXXXXXXXXXXXXXX METHODS  XXXXXXXXXXXXXXXXXXXX
     
     // initialisation of players
     func start() {
@@ -34,7 +34,7 @@ class Game {
     
     
     // creation of characters
-    func createCharacter() -> Character{
+    func createCharacter() -> Character {
         
         var charInstance: Character
         
@@ -149,7 +149,6 @@ class Game {
                 return
             }
             theOneWhoDoes.actionOn(theOneWhoUndergoes: theOneWhoUndergoes)
-
         }
         else {
             print("\(playerWhoAttacks.name ?? "") choose the character who will undergo the action :")
@@ -176,7 +175,6 @@ class Game {
             print("The weapon it contains causes \(weaponInChest.damage) points of damage")
             theOneWhoDoes.weapon = weaponInChest
         }
-        
     }
     
     

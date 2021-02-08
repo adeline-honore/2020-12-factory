@@ -13,7 +13,7 @@ import Foundation
 
 class Character {
     
-    // ----------   PROPERTIES
+    //  XXXXXXXXXXXXXXXXXXXX  PROPERTIES  XXXXXXXXXXXXXXXXXXXX
     var name: String?
     var life = 10
     var weapon: Weapon
@@ -23,18 +23,17 @@ class Character {
     }
     
     
-    // ----------   INIT
+    //  XXXXXXXXXXXXXXXXXXXX INIT  XXXXXXXXXXXXXXXXXXXX
     init(name: String?, weapon: Weapon) {
         self.name = name
         self.weapon = weapon
     }
     
     
-    // ----------   FUNCTIONS
+    //  XXXXXXXXXXXXXXXXXXXX METHODS  XXXXXXXXXXXXXXXXXXXX
     
     func actionOn(theOneWhoUndergoes: Character) {
         theOneWhoUndergoes.life -= self.weapon.damage
-        
         print("\(theOneWhoUndergoes.name ?? "") has \(theOneWhoUndergoes.life) points of life now ")
     }
 }

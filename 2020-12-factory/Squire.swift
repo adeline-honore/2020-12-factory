@@ -21,4 +21,3 @@ class Squire: Character {
         weapon = weapon
     }
 }
-

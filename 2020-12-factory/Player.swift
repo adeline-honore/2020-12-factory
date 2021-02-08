@@ -10,6 +10,8 @@ import Foundation
 
 
 class Player {
+    
+    //  XXXXXXXXXXXXXXXXXXXX  PROPERTIES  XXXXXXXXXXXXXXXXXXXX
     var name: String?
     var characters: [Character] = []
     
@@ -23,10 +25,13 @@ class Player {
         return result
     }
     
+    //  XXXXXXXXXXXXXXXXXXXX INIT  XXXXXXXXXXXXXXXXXXXX
+    
     init(name: String?) {
         self.name = name
     }
     
+    //  XXXXXXXXXXXXXXXXXXXX METHODS  XXXXXXXXXXXXXXXXXXXX
     
     // to choose a character in a team
     func chooseChar(playerchoosed: Player) -> Character? {
