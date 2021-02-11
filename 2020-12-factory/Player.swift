@@ -25,6 +25,8 @@ class Player {
         return result
     }
     
+    let rangeNumChar = 0..<Game.numberCharInPlayer
+    
     //  XXXXXXXXXXXXXXXXXXXX INIT  XXXXXXXXXXXXXXXXXXXX
     
     init(name: String?) {
@@ -38,12 +40,12 @@ class Player {
         var userChoice = Utils.enteredInteger()
         
         // check if the entry corresponds to a character
-        while !Utils.rangeArray.contains (userChoice) {
+        while !rangeNumChar.contains (userChoice) {
             Utils.incorrectEntry()
             userChoice = Utils.enteredInteger()
         }
         
-        while Utils.rangeArray.contains (userChoice) && playerchoosed.characters[userChoice].itIsAlive == false {
+        while rangeNumChar.contains (userChoice) && playerchoosed.characters[userChoice].itIsAlive == false {
             print("you cannot choose this character because he is dead !")
             userChoice = Utils.enteredInteger()
         }

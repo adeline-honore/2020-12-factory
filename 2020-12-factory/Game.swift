@@ -14,15 +14,12 @@ class Game {
     
     //  XXXXXXXXXXXXXXXXXXXX  PROPERTIES  XXXXXXXXXXXXXXXXXXXX
     
-    // table of character names
-    private var characterNames: [String] = []
-    
     // instantiations of Player
     private var player1: Player?
     private var player2: Player?
     
-    // presence of random chest
-    private var chestPresence: Int?
+    static let numberCharType = 3
+    static let numberCharInPlayer = 3
     
     //  XXXXXXXXXXXXXXXXXXXX METHODS  XXXXXXXXXXXXXXXXXXXX
     
@@ -37,15 +34,17 @@ class Game {
     func createCharacter() -> Character {
         
         var charInstance: Character
+        let rangeCharacType = 0..<Game.numberCharType
+        var characterNames: [String] = []
         
         // creation of an instance of Character
         print("Enter 0 to create a Squire,\nenter 1 to create a Knight,\nenter 2 to create a Doctor ")
         var userChoice = Utils.enteredInteger()
         
         // check the entry
-        while !Utils.rangeArray.contains(userChoice) {
+        while !rangeCharacType.contains(userChoice) {
             Utils.incorrectEntry()
-            print("you have must enter a number between 0 and \(Utils.numberCharType-1) ")
+            print("you have must enter a number between 0 and \(Game.numberCharType-1) ")
             userChoice = Utils.enteredInteger()
         }
         
@@ -93,7 +92,7 @@ class Game {
         // creation of the table of characters
         var playerArray = [Character]()
         
-        while playerArray.count < Utils.numberCharInPlayer {
+        while playerArray.count < Game.numberCharInPlayer {
             let aCharacter: Character = createCharacter()
             playerArray.append(aCharacter)
             playerIns.characters = playerArray
@@ -157,7 +156,7 @@ class Game {
             guard let theOneWhoUndergoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoIsAttacked) else {
                 return
             }
-            chestPresence = Int.random(in: 0..<10)
+            
             randomChest(theOneWhoDoes: theOneWhoDoes)
             theOneWhoDoes.actionOn(theOneWhoUndergoes: theOneWhoUndergoes)
         }
@@ -166,9 +165,9 @@ class Game {
     
     // random chest
     func randomChest(theOneWhoDoes: Character) {
-        guard let chestPresence = chestPresence else {
-            return
-        }
+        // presence of random chest
+        let chestPresence = Int.random(in: 0..<10)
+        
         if chestPresence < 2 {
             print("*************  a chest appears ! ***************")
             let weaponInChest = Weapon(weaponType: .inChest)

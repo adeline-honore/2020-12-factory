@@ -14,10 +14,8 @@ class Utils {
     
     //  XXXXXXXXXXXXXXXXXXXX  PROPERTIES  XXXXXXXXXXXXXXXXXXXX
     
-    static let rangeArray = 0..<numberCharInPlayer
     static let rangeDigit = 0...9
-    static let numberCharInPlayer = 3
-    static let numberCharType = 3
+    
     
     //  XXXXXXXXXXXXXXXXXXXX METHODS  XXXXXXXXXXXXXXXXXXXX
     
