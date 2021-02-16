@@ -26,7 +26,7 @@ class Doctor: Character {
         
         let carePoint = Int.random(in: 30...50)
         theOneWhoUndergoes.life += carePoint
-        print("you added \(carePoint) points of life!")
-        print("now \(theOneWhoUndergoes.name ?? "") has \(theOneWhoUndergoes.life) points of life")
+        print("You added \(carePoint) points of life!")
+        print("Now \(theOneWhoUndergoes.name ?? "") has \(theOneWhoUndergoes.life) points of life")
     }
 }

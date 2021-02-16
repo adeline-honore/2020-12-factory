@@ -18,8 +18,14 @@ class Game {
     private var player1: Player?
     private var player2: Player?
     
+    var playerNames: [String] = []
+    static var characterNames: [String] = []
+    
     static let numberCharType = 3
     static let numberCharInPlayer = 3
+    
+    // account round
+    static var roundNb = 0
     
     //  XXXXXXXXXXXXXXXXXXXX METHODS  XXXXXXXXXXXXXXXXXXXX
     
@@ -30,53 +36,7 @@ class Game {
     }
     
     
-    // creation of characters
-    func createCharacter() -> Character {
-        
-        var charInstance: Character
-        let rangeCharacType = 0..<Game.numberCharType
-        var characterNames: [String] = []
-        
-        // creation of an instance of Character
-        print("Enter 0 to create a Squire,\nenter 1 to create a Knight,\nenter 2 to create a Doctor ")
-        var userChoice = Utils.enteredInteger()
-        
-        // check the entry
-        while !rangeCharacType.contains(userChoice) {
-            Utils.incorrectEntry()
-            print("you have must enter a number between 0 and \(Game.numberCharType-1) ")
-            userChoice = Utils.enteredInteger()
-        }
-        
-        switch Int(userChoice) {
-        case 0:
-            charInstance = Squire()
-        case 1:
-            charInstance = Knight()
-        case 2:
-            charInstance = Doctor()
-        default :
-            charInstance = Squire()
-            print("value not avaible, a Squire character is create")
-        }
-        
-        // Choose character's name
-        print("Enter name of character")
-        var nameChoice = Utils.readlineValue()
-        charInstance.name = nameChoice
-        
-        // check if the name already exists in characterNames
-        while characterNames.contains(nameChoice) {
-            print("This name is already existed. Enter an other name of character")
-            nameChoice = Utils.readlineValue()
-            charInstance.name = nameChoice
-        }
-        // addition of the character name in the table of names
-        characterNames.append(nameChoice)
-        
-        print("\nYou create a \(type(of:charInstance)) named :\(charInstance.name ?? "")\n")
-        return charInstance
-    }
+    
     
     // creation of players
     func createPlayer() -> Player {
@@ -86,14 +46,21 @@ class Game {
         
         // Init of player
         print("Enter the name of player ")
-        let name = Utils.readlineValue()
+        var name = Utils.readlineValue()
+        
+        while playerNames.contains(name) {
+            Utils.alreadyExists()
+            name = Utils.readlineValue()
+            playerIns.name = name
+        }
         playerIns.name = name
+        playerNames.append(playerIns.name!)
         
         // creation of the table of characters
         var playerArray = [Character]()
         
         while playerArray.count < Game.numberCharInPlayer {
-            let aCharacter: Character = createCharacter()
+            let aCharacter: Character = Player.createCharacter()
             playerArray.append(aCharacter)
             playerIns.characters = playerArray
         }
@@ -104,13 +71,10 @@ class Game {
     // alternate function
     func round() {
         
-        // account round
-        var roundNb = 0
-        
         guard let player1 = player1, let player2 = player2 else {
             return
         }
-   
+           
         var attackingPlayer = player1
         var attackedPlayer = player2
         
@@ -118,17 +82,17 @@ class Game {
         while player1.isAlive && player2.isAlive {
 
             // incrémentation du nombre de tour
-            roundNb += 1
-            print("Round n°: \(roundNb)")
+            Game.roundNb += 1
+            print("Round n°: \(Game.roundNb)")
             
             // "action" function call
             action(playerWhoAttacks: attackingPlayer, playerWhoIsAttacked: attackedPlayer)
-            print("fin du round\(roundNb) ! \n")
+            print("End of round n°: \(Game.roundNb) ! \n")
             
             // swap between players
             swap(&attackedPlayer, &attackingPlayer)
         }
-        Utils.endOfGame(winnerPlayer: attackedPlayer.name)
+        Utils.endOfGame(winnerPlayer: attackedPlayer, numberOfRound: Game.roundNb, looserPlayer: attackingPlayer)
     }
 
     
@@ -136,14 +100,14 @@ class Game {
     func action(playerWhoAttacks: Player, playerWhoIsAttacked: Player) {
         
         print("\(playerWhoAttacks.name ?? "") choose the character who will do the action :")
-        Utils.theCharacters(player: playerWhoAttacks)
+        Player.theCharacters(player: playerWhoAttacks)
         guard let theOneWhoDoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoAttacks) else {
             return
         }
         
         if theOneWhoDoes is Doctor {
-            print("you choose an Doctor, you will care one of your characters ")
-            Utils.theCharacters(player: playerWhoAttacks)
+            print("You choose an Doctor, you will care one of your characters ")
+            Player.theCharacters(player: playerWhoAttacks)
             guard let theOneWhoUndergoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoAttacks) else {
                 return
             }
@@ -151,7 +115,7 @@ class Game {
         }
         else {
             print("\(playerWhoAttacks.name ?? "") choose the character who will undergo the action :")
-            Utils.theCharacters(player: playerWhoIsAttacked)
+            Player.theCharacters(player: playerWhoIsAttacked)
             
             guard let theOneWhoUndergoes = playerWhoAttacks.chooseChar(playerchoosed: playerWhoIsAttacked) else {
                 return
@@ -169,7 +133,7 @@ class Game {
         let chestPresence = Int.random(in: 0..<10)
         
         if chestPresence < 2 {
-            print("*************  a chest appears ! ***************")
+            print("*************  A chest appears ! ***************")
             let weaponInChest = Weapon(weaponType: .inChest)
             print("The weapon it contains causes \(weaponInChest.damage) points of damage")
             theOneWhoDoes.weapon = weaponInChest

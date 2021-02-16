@@ -23,7 +23,7 @@ class Utils {
     static func readlineValue() -> String {
         var keyboardInput = readLine()
         while keyboardInput!.isEmpty {
-            print("Keyboard input is empty, please enter a correct value .")
+            print("Keyboard input is empty, please enter a correct value.")
             keyboardInput = readLine()
         }
         if let valueRL = keyboardInput {
@@ -42,7 +42,7 @@ class Utils {
         
         // if the entry is of the type "String"
         while readlinevalueEntered == nil {
-            print("this is not a number, please enter a correct value .")
+            print("This is not a number, please enter a correct value.")
             readlinevalueEntered = Int(readlineValue())
         }
         
@@ -72,30 +72,38 @@ class Utils {
     
     // Welcome
     static func welcomme() {
-        print("Welcome to the new game from Game Factory.\nTwo players will compete against each other.\nEach player will have three characters on their team.\nYou have the choice between a Squire, a Knight and a Doctor to create a team.\n Let's go and good luck! \n")
+        print("Welcome to the new game from Game Factory.\nTwo players will compete against each other.\nEach player will have three characters in his team.\nYou have the choice between a Squire, a Knight and a Doctor to create a team.\nLet's go and good luck! \n")
         print("*********************************************** \n")
-    }
-    
-    // check of characters
-    static func theCharacters(player: Player) {
-        for (key, value) in ((player.characters.enumerated())) {
-            if value.itIsAlive == true {
-                print("enter: \(key) to choose \(type(of:value)) named \(value.name ?? ""), life: \(value.life ), damage: \(value.weapon.damage) ")
-            }
-            else {
-                print("not \(value.name ?? "") because he is dead.")
-            }
-        }
     }
     
     // function incorrect entry
     static func incorrectEntry() {
-        print("incorrect entry please start over")
+        print("Incorrect entry please start over.")
+    }
+    
+    // function incorrect entry
+    static func alreadyExists() {
+        print("This name already exists, please enter an other name.")
     }
     
     // End of Game
-    static func endOfGame(winnerPlayer: String?) {
-        print("******************   end of game !!!   ******************\n")
-        print("congratulations !!! \n\(winnerPlayer ?? "" ) you are the winner! ")
+    static func endOfGame(winnerPlayer: Player, numberOfRound: Int, looserPlayer: Player) {
+        print("******************   End of game !!!   ******************\n")
+        print("Congratulations !!! \n\(winnerPlayer.name ?? "" ) you are the winner!")
+        
+        print("\nThe game lasted for \(Game.roundNb) rounds \n")
+        print("Here are the statistics of the players")
+        print(winnerPlayer.name ?? "")
+        for (_, value) in ((winnerPlayer.characters.enumerated())) {
+            print("- the \(type(of:value)) named \(value.name ?? "") has \(value.life ) points of life ")
+            
+        }
+        print("--------------------")
+        print(looserPlayer.name ?? "")
+        for (_, value) in ((looserPlayer.characters.enumerated())) {
+            print("- the \(type(of:value)) named \(value.name ?? "") has \(value.life ) points of life ")
+            
+        }
+        
     }
 }
